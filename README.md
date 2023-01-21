@@ -6,7 +6,7 @@ AnyPackage.Chocolatey is an AnyPackage provider that facilitates installing Choc
 Install-Module AnyPackage.Chocolatey -Force
 ```
 
-# Importing AnyPackage.Chocolatey
+## Importing AnyPackage.Chocolatey
 ```PowerShell
 Import-Module AnyPackage.Chocolatey
 ```
