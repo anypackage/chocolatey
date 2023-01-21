@@ -6,7 +6,7 @@ AnyPackage.Chocolatey is an AnyPackage provider that facilitates installing Choc
 Install-Module AnyPackage.Chocolatey -Force
 ```
 
-## Importing AnyPackage.Chocolatey
+## Import AnyPackage.Chocolatey
 ```PowerShell
 Import-Module AnyPackage.Chocolatey
 ```
@@ -39,7 +39,7 @@ Get-Package keepass-plugin-winhello | Uninstall-Package
 
 ### Manage package sources
 ```PowerShell
-Register-PackageSource privateRepo -Location 'https://somewhere/out/there/api/v2/'
+Register-PackageSource privateRepo -Provider Chocolatey -Location 'https://somewhere/out/there/api/v2/'
 Find-Package nodejs -Source privateRepo | Install-Package
 Unregister-PackageSource privateRepo
 ```
