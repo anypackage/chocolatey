@@ -1,0 +1,75 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Bundle up module
+        uses: actions/upload-artifact@v3
+        with:
+          name: module
+          path: ./src/
+  Test:
+    needs: Build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Download module
+        uses: actions/download-artifact@v3
+        with:
+          name: module
+          path: C:\Users\runneradmin\Documents\PowerShell\Modules\AnyPackage.Chocolatey\
+      - name: Install Foil
+        run: Install-Module Foil -Force
+      - name: Install AnyPackage
+        run: Install-Module AnyPackage -Force -AllowClobber
+      - name: Test with Pester
+        run: |
+          Invoke-Pester -Configuration (New-PesterConfiguration -Hashtable @{
+            Run = @{
+              Exit = $true
+            }
+            Output = @{
+              Verbosity = 'Detailed'
+            }
+          })
+      - name: Upload Chocolatey logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Chocolatey-logs
+          path: C:\ProgramData\chocolatey\logs\
+  Publish:
+    needs: Test
+    if: github.event_name == 'release' && github.event.action == 'published'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download module
+        uses: actions/download-artifact@v3
+        with:
+          name: module
+          path: '~/.local/share/powershell/Modules/AnyPackage.Chocolatey'
+      - name: Install Foil
+        shell: pwsh
+        run: Install-Module Foil -Force
+      - name: Install AnyPackage
+        shell: pwsh
+        run: Install-Module AnyPackage -Force -AllowClobber
+      - name: Publish Module
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_KEY }}
+        shell: pwsh
+        run: Write-Output "Publishing..."; Publish-Module -Name AnyPackage.Chocolatey -NuGetApiKey $env:NUGET_KEY
