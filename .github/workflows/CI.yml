@@ -37,7 +37,8 @@ jobs:
       - name: Install AnyPackage
         run: Install-Module AnyPackage -Force -AllowClobber
       - name: Test loading of Immutable DLL
-        run: [reflection.assembly]::LoadFile($(Get-ChildItem 'C:\Users\runneradmin\Documents\PowerShell\Modules\' -Recurse -Filter 'System.Collections.Immutable.dll' | Select-Object -ExpandProperty FullName)) | Format-List
+        run: |
+          [reflection.assembly]::LoadFile($(Get-ChildItem 'C:\Users\runneradmin\Documents\PowerShell\Modules\' -Recurse -Filter 'System.Collections.Immutable.dll' | Select-Object -ExpandProperty FullName)) | Format-List
       - name: Test with Pester
         run: |
           Invoke-Pester -Configuration (New-PesterConfiguration -Hashtable @{
