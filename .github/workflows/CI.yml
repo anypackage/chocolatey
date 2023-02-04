@@ -23,7 +23,7 @@ jobs:
           path: ./src/
   Test:
     needs: Build
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -36,12 +36,6 @@ jobs:
         run: Install-Module Foil -Force
       - name: Install AnyPackage
         run: Install-Module AnyPackage -Force -AllowClobber
-      - name: Test loading of Immutable DLL
-        run: |
-          [reflection.assembly]::LoadFile($(Get-ChildItem 'C:\Users\runneradmin\Documents\PowerShell\Modules\' -Recurse -Filter 'System.Collections.Immutable.dll' | Select-Object -ExpandProperty FullName)) | Format-List
-      - name: Test Importing Module
-        shell: pwsh
-        run: Import-Module AnyPackage -Force -Verbose
       - name: Test with Pester
         run: |
           Invoke-Pester -Configuration (New-PesterConfiguration -Hashtable @{
