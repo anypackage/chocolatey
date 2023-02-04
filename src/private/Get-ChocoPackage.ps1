@@ -19,6 +19,6 @@ function Get-ChocoPackage {
 	# Filter results by any name and version requirements
 	# We apply additional package name filtering when using wildcards to make Chocolatey's wildcard behavior more PowerShell-esque
 	Foil\Get-ChocoPackage @chocoParams |
-		Where-Object {-Not $Request.Name -Or ($Request.IsMatch($_.Name))} |
+		Where-Object {$Request.IsMatch($_.Name)} |
 			Where-Object {-Not $Request.Version -Or (([NuGet.Versioning.VersionRange]$Request.Version).Satisfies($_.Version))}
 }
