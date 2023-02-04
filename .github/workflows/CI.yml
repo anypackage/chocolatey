@@ -35,7 +35,7 @@ jobs:
       - name: Install Foil
         run: Install-Module Foil -Force
       - name: Install AnyPackage
-        run: Install-Module AnyPackage -Force -AllowClobber -RequiredVersion 0.1.0
+        run: Install-Module AnyPackage -Force -AllowClobber
       - name: Test with Pester
         run: |
           Invoke-Pester -Configuration (New-PesterConfiguration -Hashtable @{
