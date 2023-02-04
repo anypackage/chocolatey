@@ -1,5 +1,4 @@
 ﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification='PSSA does not understand Pester scopes well')]
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseCmdletCorrectly', '', Justification='PSSA does not like explicitly using InputObject')]
 param()
 
 BeforeAll {
@@ -64,7 +63,7 @@ Describe 'pipeline-based package installation and uninstallation' {
 		}
 
 		It 'silently installs the latest version of a package with explicit parameters' {
-			Find-Package -Name $package | Install-Package -PassThru -InputObject $_ -Provider Chocolatey -ParamsGlobal -Parameters $parameters} | Where-Object {$_.Name -contains $package} | Should -Not -BeNullOrEmpty
+			Find-Package -Name $package | Install-Package -PassThru -Provider Chocolatey -ParamsGlobal -Parameters $parameters | Where-Object {$_.Name -contains $package} | Should -Not -BeNullOrEmpty
 		}
 		It 'correctly passed parameters to the package' {
 			Get-ChildItem -Path $installDir -ErrorAction SilentlyContinue | Should -Not -BeNullOrEmpty
