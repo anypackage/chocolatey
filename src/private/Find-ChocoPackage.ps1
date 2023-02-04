@@ -14,11 +14,7 @@ function Find-ChocoPackage {
 				# Found the matched registered source
 				$Request.Source
 			} else {
-				ThrowError -ExceptionName 'System.ArgumentException' `
-				-ExceptionMessage ($LocalizedData.PackageSourceNotFound -f ($Request.Source)) `
-				-ErrorId 'PackageSourceNotFound' `
-				-ErrorCategory InvalidArgument `
-				-ExceptionObject $Request.Source
+				throw 'The specified source is not registered with the package provider.'
 			}
 		} else {
 			# User did not specify a source. Now what?
@@ -30,10 +26,7 @@ function Find-ChocoPackage {
 				$DefaultPackageSource
 			} else {
 				# If the default assumed source is not present and no source specified, we can't guess what the user wants - throw an exception
-				ThrowError -ExceptionName 'System.ArgumentException' `
-				-ExceptionMessage $LocalizedData.UnspecifiedSource `
-				-ErrorId 'UnspecifiedSource' `
-				-ErrorCategory InvalidArgument
+				throw 'Multiple non-default sources are defined, but no source was specified. Source could not be determined.'
 			}
 		}
 	)

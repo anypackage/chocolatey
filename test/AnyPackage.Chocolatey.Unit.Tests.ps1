@@ -144,7 +144,7 @@ Describe 'version filters' {
 	}
 }
 
-Describe "error handling on Chocolatey failures" {
+Describe "error handling" {
 	Context 'package installation' {
 		BeforeAll {
 			$package = 'googlechrome'
@@ -170,6 +170,37 @@ Describe "error handling on Chocolatey failures" {
 
 		It 'fails to silently uninstall a package that cannot be uninstalled' {
 			{Uninstall-Package -Name $package -ErrorAction Stop -WarningAction SilentlyContinue} | Should -Throw
+		}
+	}
+
+	Context 'ambiguous sources' {
+		BeforeAll {
+			$package = 'cpu-z'
+			$defaultSource = 'chocolatey'
+			$chocoSource = Get-PackageSource -name $defaultSource | Select-Object -ExpandProperty Location
+			Get-PackageSource | Unregister-PackageSource
+			@('test1','test2') | Register-PackageSource -Location $chocoSource -Provider Chocolatey
+		}
+
+		It 'refuses to find packages when the specified source does not exist' {
+			{Find-Package -Name $package -Source $defaultSource -ErrorAction Stop} | Should -Throw 'The specified source is not registered with the package provider.'
+		}
+
+		It 'refuses to install packages when the specified source does not exist' {
+			{Install-Package -Name $package -Source $defaultSource -ErrorAction Stop} | Should -Throw 'The specified source is not registered with the package provider.'
+		}
+
+		It 'refuses to find packages when multiple custom sources are defined and no source specified' {
+			{Find-Package -Name $package -ErrorAction Stop} | Should -Throw 'Multiple non-default sources are defined, but no source was specified. Source could not be determined.'
+		}
+
+		It 'refuses to install packages when multiple custom sources are defined and no source specified' {
+			{Install-Package -Name $package -ErrorAction Stop} | Should -Throw 'Multiple non-default sources are defined, but no source was specified. Source could not be determined.'
+		}
+
+		AfterAll {
+			Get-PackageSource | Unregister-PackageSource
+			Register-PackageSource -Name $defaultSource -Location $chocoSource -Provider Chocolatey
 		}
 	}
 }
