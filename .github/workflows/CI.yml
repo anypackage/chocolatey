@@ -39,6 +39,8 @@ jobs:
       - name: Test loading of Immutable DLL
         run: |
           [reflection.assembly]::LoadFile($(Get-ChildItem 'C:\Users\runneradmin\Documents\PowerShell\Modules\' -Recurse -Filter 'System.Collections.Immutable.dll' | Select-Object -ExpandProperty FullName)) | Format-List
+      - name: Test Importing Module
+        run: Import-Module AnyPackage.Chocolatey -Force
       - name: Test with Pester
         run: |
           Invoke-Pester -Configuration (New-PesterConfiguration -Hashtable @{
