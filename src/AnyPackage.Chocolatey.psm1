@@ -89,4 +89,3 @@ class ChocolateyProvider : PackageProvider, IGetSource, ISetSource, IGetPackage,
 
 [PackageProviderManager]::RegisterProvider([ChocolateyProvider], $MyInvocation.MyCommand.ScriptBlock.Module)
 
-Export-ModuleMember -Cmdlet *
