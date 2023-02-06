@@ -57,7 +57,7 @@ jobs:
           name: Chocolatey-logs
           path: C:\ProgramData\chocolatey\logs\
   Sign:
-    #needs: Test
+    needs: Build
     #if: github.event_name == 'release' && github.event.action == 'published'
     runs-on: windows-latest
     steps:
@@ -67,6 +67,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: module
+          path: module
       - name: Import certificate
         env:
           CERTIFICATE_BASE64: ${{ secrets.CERTIFICATE_BASE64 }}
