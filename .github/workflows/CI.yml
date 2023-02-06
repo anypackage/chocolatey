@@ -57,8 +57,8 @@ jobs:
           name: Chocolatey-logs
           path: C:\ProgramData\chocolatey\logs\
   Sign:
-    needs: Build
-    #if: github.event_name == 'release' && github.event.action == 'published'
+    needs: Test
+    if: github.event_name == 'release' && github.event.action == 'published'
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
