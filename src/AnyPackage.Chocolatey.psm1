@@ -12,7 +12,7 @@ Get-ChildItem $ScriptPath/private -Recurse -Filter '*.ps1' -File | ForEach-Objec
 class InstallPackageDynamicParameters {
 	[Parameter()]
 	[switch]
-	$ParamsGlobal = $false
+	$ParamsGlobal
 
 	[Parameter()]
 	[string]
@@ -22,7 +22,7 @@ class InstallPackageDynamicParameters {
 class UninstallPackageDynamicParameters {
 	[Parameter()]
 	[switch]
-	$RemoveDependencies = $false
+	$RemoveDependencies
 }
 
 [PackageProvider("Chocolatey")]
