@@ -1,6 +1,6 @@
 @{
 	RootModule = 'AnyPackage.Chocolatey.psm1'
-	ModuleVersion = '0.0.3'
+	ModuleVersion = '0.1.0'
 	CompatiblePSEditions = @('Desktop', 'Core')
 	GUID = '070f2b8f-c7db-4566-9296-2f7cc9146bf0'
 	Author = 'Ethan Bergstrom'
@@ -17,7 +17,7 @@
 		},
 		@{
 			ModuleName = 'Foil'
-			ModuleVersion = '0.1.0'
+			ModuleVersion = '0.3.0'
 		}
 	)
 	PrivateData = @{

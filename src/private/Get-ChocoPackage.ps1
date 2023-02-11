@@ -6,6 +6,7 @@ function Get-ChocoPackage {
 	)
 
 	$chocoParams = @{
+		# Remove this flag after the release of Chocolatey v2
 		LocalOnly = $true
 		AllVersions = $true
 	}
