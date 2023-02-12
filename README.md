@@ -49,6 +49,8 @@ AnyPackage.Chocolatey integrates with Choco.exe to manage and store source infor
 ### Compatibility
 AnyPackage.Chocolatey works with PowerShell for both FullCLR/'Desktop' (ex 5.1) and CoreCLR (ex: 7.0.1), though Chocolatey itself still requires FullCLR.
 
+Users must upgrade to v0.1.0 or higher of this provider module prior to the release of Chocolatey v2 to ensure continued compatibility.
+
 ### Save a package
 Save-Package is not supported with the AnyPackage.Chocolatey provider, due to Chocolatey not supporting package downloads without special licensing.
 
