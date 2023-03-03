@@ -21,6 +21,9 @@
 		}
 	)
 	PrivateData = @{
+		AnyPackage = @{
+			Providers = 'Chocolatey'
+		}
 		PSData = @{
 			Tags = @('AnyPackage','Provider','Chocolatey','Windows')
 			LicenseUri = 'https://github.com/AnyPackage/AnyPackage.Chocolatey/blob/main/LICENSE'
