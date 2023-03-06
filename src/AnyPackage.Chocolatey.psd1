@@ -32,4 +32,5 @@
 			It discovers Chocolatey packages from https://www.chocolatey.org and other NuGet repos.'
 		}
 	}
+	HelpInfoUri = 'https://go.anypackage.dev/help'
 }
