@@ -52,7 +52,7 @@ function Find-ChocoPackage {
 	# Choco does not include source information in it's result set, so we need to include it in the results as a calculated property
 	Foil\Find-ChocoPackage @chocoParams |
 		Where-Object {$Request.IsMatch($_.Name)} |
-			Where-Object {-Not $Request.Version -Or (([NuGet.Versioning.VersionRange]$Request.Version).Satisfies($_.Version))} | Group-Object Name |
+			Where-Object {-Not $Request.Version -Or $Request.Version.Satisfies($_.Version)} | Group-Object Name |
 				Select-Object Name,@{
 						Name = 'Version'
 						Expression = {$_.Group | Sort-Object -Descending Version | Select-Object -First 1 -ExpandProperty Version}
