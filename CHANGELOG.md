@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2023-04-05
+
+### Changed
+
+- Update AnyPackage to 0.5.1 (#20)
+
 ## [0.1.2] - 2023-03-15
 
 #### Fixed
@@ -43,7 +49,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial release
 
-[Unreleased]: https://github.com/AnyPackage/AnyPackage.Chocolatey/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/AnyPackage/AnyPackage.Chocolatey/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/AnyPackage/AnyPackage.Chocolatey/releases/tag/v0.1.3
 [0.1.2]: https://github.com/AnyPackage/AnyPackage.Chocolatey/releases/tag/v0.1.2
 [0.1.1]: https://github.com/AnyPackage/AnyPackage.Chocolatey/releases/tag/v0.1.1
 [0.1.0]: https://github.com/AnyPackage/AnyPackage.Chocolatey/releases/tag/v0.1.0
