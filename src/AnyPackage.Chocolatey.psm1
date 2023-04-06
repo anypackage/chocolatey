@@ -52,8 +52,8 @@ class ChocolateyProvider : PackageProvider, IGetSource, ISetSource, IGetPackage,
 	[void] UnregisterSource([SourceRequest] $Request) {
 		$source = Foil\Get-ChocoSource | Where-Object Name -like $Request.Name
 		Foil\Unregister-ChocoSource -Name $Request.Name
-		# Choco doesn't return anything after source operations, so we make up our own output object
-		$Request.WriteSource($source)
+		$sourceInfo = [PackageSourceInfo]::new($source.Name, $source.Location, $this.ProviderInfo)
+		$Request.WriteSource($sourceInfo)
 	}
 
 	[void] SetSource([SourceRequest] $Request) {
