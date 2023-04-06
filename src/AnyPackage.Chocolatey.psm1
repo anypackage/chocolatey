@@ -37,20 +37,23 @@ class ChocolateyProvider : PackageProvider, IGetSource, ISetSource, IGetPackage,
 
 	[void] GetSource([SourceRequest] $Request) {
 		Foil\Get-ChocoSource | Where-Object {$_.Disabled -eq 'False'} | Where-Object {$_.Name -Like $Request.Name} | ForEach-Object {
-			$Request.WriteSource($_.Name, $_.Location, $true)
+			$source = [PackageSourceInfo]::new($_.Name, $_.Location, $true, $this.ProviderInfo)
+			$Request.WriteSource($source)
 		}
 	}
 
 	[void] RegisterSource([SourceRequest] $Request) {
 		Foil\Register-ChocoSource -Name $Request.Name -Location $Request.Location
 		# Choco doesn't return anything after source operations, so we make up our own output object
-		$Request.WriteSource($Request.Name, $Request.Location.TrimEnd("\"), $Request.Trusted)
+		$source = [PackageSourceInfo]::new($Request.Name, $Request.Location.TrimEnd("\"), $Request.Trusted, $this.ProviderInfo)
+		$Request.WriteSource($source)
 	}
 
 	[void] UnregisterSource([SourceRequest] $Request) {
+		$source = Foil\Get-ChocoSource -Name $Request.Name
 		Foil\Unregister-ChocoSource -Name $Request.Name
 		# Choco doesn't return anything after source operations, so we make up our own output object
-		$Request.WriteSource($Request.Name, '')
+		$Request.WriteSource($source)
 	}
 
 	[void] SetSource([SourceRequest] $Request) {
