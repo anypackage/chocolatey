@@ -6,11 +6,7 @@ function Write-Package {
 
 		[Parameter()]
 		[PackageRequest]
-		$Request = $Request,
-
-		[Parameter()]
-		[PackageProviderInfo]
-		$Provider = $this.PackageInfo
+		$Request = $Request
 	)
 
 	begin {
@@ -22,10 +18,10 @@ function Write-Package {
 			if ($package.Source) {
 				# If source information is provided (usually from Find-ChocoPackage), construct a source object for inclusion in the results
 				$location = $sources | Where-Object Name -EQ $package.Source | Select-Object -ExpandProperty Location
-				$source = [PackageSourceInfo]::new($package.Source, $location, $true, $Provider)
-				$package = [PackageInfo]::new($package.Name, $package.Version, $source, $Provider)
+				$source = [PackageSourceInfo]::new($package.Source, $location, $true, $Request.ProviderInfo)
+				$package = [PackageInfo]::new($package.Name, $package.Version, $source, $Request.ProviderInfo)
 			} else {
-				$package = [PackageInfo]::new($package.Name, $package.Version, $Provider)
+				$package = [PackageInfo]::new($package.Name, $package.Version, $Request.ProviderInfo)
 			}
 
 			$Request.WritePackage($package)
