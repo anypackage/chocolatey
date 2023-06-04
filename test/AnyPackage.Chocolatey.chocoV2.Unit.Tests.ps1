@@ -6,6 +6,18 @@ BeforeAll {
 	Import-Module $AnyPackageProvider -Force
 }
 
+Describe 'Chocolatey V2 test validity' {
+	BeforeAll {
+		$package = 'chocolatey'
+		$version = '2.0.0'
+		# Upgrade to Chocolatey v2 to test the API changes
+		choco upgrade $package --yes
+	}
+	It 'confirms version of Chocolatey is at least 2.0.0' {
+		Get-Package | Where-Object {$_.Name -eq $package -And $_.Version -ge $version} | Should -Not -BeNullOrEmpty
+	}
+}
+
 Describe 'basic package search operations' {
 	Context 'without additional arguments' {
 		BeforeAll {
@@ -43,14 +55,14 @@ Describe 'pipeline-based package installation and uninstallation' {
 
 	Context 'with dependencies' {
 		BeforeAll {
-			$package = 'keepass-plugin-winhello'
+			$package = 'notepadplusplus'
 		}
 
 		It 'searches for and silently installs the latest version of a package' {
 			Find-Package -Name $package | Install-Package -PassThru | Where-Object {$_.Name -contains $package} | Should -Not -BeNullOrEmpty
 		}
 		It 'finds and silently uninstalls the locally installed package just installed, along with its dependencies' {
-			Get-Package -Name $package | Uninstall-Package -Provider Chocolatey -RemoveDependencies -PassThru | Should -HaveCount 3
+			Get-Package -Name $package | Uninstall-Package -Provider Chocolatey -RemoveDependencies -PassThru | Should -HaveCount 4
 		}
 	}
 
