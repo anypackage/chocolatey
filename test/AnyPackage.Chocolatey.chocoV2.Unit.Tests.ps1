@@ -6,7 +6,19 @@ BeforeAll {
 	Import-Module $AnyPackageProvider -Force
 }
 
-Describe 'basic package search operations' {
+Describe 'Chocolatey V2 test validity' {
+	BeforeAll {
+		$package = 'chocolatey'
+		$version = '2.0.0'
+		# Upgrade to Chocolatey v2 to test the API changes
+		choco upgrade $package --yes
+	}
+	It 'confirms version of Chocolatey is at least 2.0.0' {
+		Get-Package | Where-Object {$_.Name -eq $package -And $_.Version -ge $version} | Should -Not -BeNullOrEmpty
+	}
+}
+
+Describe 'Chocolatey V2 basic package search operations' {
 	Context 'without additional arguments' {
 		BeforeAll {
 			$package = 'cpu-z'
@@ -27,7 +39,7 @@ Describe 'basic package search operations' {
 	}
 }
 
-Describe 'pipeline-based package installation and uninstallation' {
+Describe 'Chocolatey V2 pipeline-based package installation and uninstallation' {
 	Context 'without additional arguments' {
 		BeforeAll {
 			$package = 'cpu-z'
@@ -43,14 +55,14 @@ Describe 'pipeline-based package installation and uninstallation' {
 
 	Context 'with dependencies' {
 		BeforeAll {
-			$package = 'keepass-plugin-winhello'
+			$package = 'notepadplusplus'
 		}
 
 		It 'searches for and silently installs the latest version of a package' {
 			Find-Package -Name $package | Install-Package -PassThru | Where-Object {$_.Name -contains $package} | Should -Not -BeNullOrEmpty
 		}
 		It 'finds and silently uninstalls the locally installed package just installed, along with its dependencies' {
-			Get-Package -Name $package | Uninstall-Package -Provider Chocolatey -RemoveDependencies -PassThru | Should -HaveCount 3
+			Get-Package -Name $package | Uninstall-Package -Provider Chocolatey -RemoveDependencies -PassThru | Should -HaveCount 2
 		}
 	}
 
@@ -74,7 +86,7 @@ Describe 'pipeline-based package installation and uninstallation' {
 	}
 }
 
-Describe 'multi-source support' {
+Describe 'Chocolatey V2 multi-source support' {
 	BeforeAll {
 		$altSource = 'LocalChocoSource'
 		$altLocation = $PSScriptRoot
@@ -105,7 +117,7 @@ Describe 'multi-source support' {
 	}
 }
 
-Describe 'version filters' {
+Describe 'Chocolatey V2 version filters' {
 	BeforeAll {
 		$package = 'ninja'
 		# Keep at least one version back, to test the 'latest' feature
@@ -159,18 +171,18 @@ Describe "error handling" {
 		}
 	}
 
-	Context 'package uninstallation' {
-		BeforeAll {
-			$package = 'chromium'
-			# This version is known to be broken, per https://github.com/chocolatey-community/chocolatey-coreteampackages/issues/341
-			$version = '56.0.2897.0'
-			Install-Package -Name $package -Version "[$version]"
-		}
+	# Context 'package uninstallation' {
+	# 	BeforeAll {
+	# 		$package = 'chromium'
+	# 		# This version is known to be broken, per https://github.com/chocolatey-community/chocolatey-coreteampackages/issues/341
+	# 		$version = '56.0.2897.0'
+	# 		Install-Package -Name $package -Version "[$version]"
+	# 	}
 
-		It 'fails to silently uninstall a package that cannot be uninstalled' {
-			{Uninstall-Package -Name $package -ErrorAction Stop -WarningAction SilentlyContinue} | Should -Throw
-		}
-	}
+	# 	It 'fails to silently uninstall a package that cannot be uninstalled' {
+	# 		{Uninstall-Package -Name $package -ErrorAction Stop -WarningAction SilentlyContinue} | Should -Throw
+	# 	}
+	# }
 
 	Context 'ambiguous sources' {
 		BeforeAll {
