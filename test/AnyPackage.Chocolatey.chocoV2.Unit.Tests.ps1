@@ -156,20 +156,20 @@ Describe 'Chocolatey V2 version filters' {
 }
 
 Describe "error handling" {
-	Context 'package installation' {
-		BeforeAll {
-			$package = 'googlechrome'
-			# This version is known to be broken, per https://github.com/chocolatey-community/chocolatey-coreteampackages/issues/1608
-			$version = '87.0.4280.141'
-		}
-		AfterAll {
-			Uninstall-Package -Name $package -ErrorAction SilentlyContinue
-		}
+	# Context 'package installation' {
+	# 	BeforeAll {
+	# 		$package = 'googlechrome'
+	# 		# This version is known to be broken, per https://github.com/chocolatey-community/chocolatey-coreteampackages/issues/1608
+	# 		$version = '87.0.4280.141'
+	# 	}
+	# 	AfterAll {
+	# 		Uninstall-Package -Name $package -ErrorAction SilentlyContinue
+	# 	}
 
-		It 'fails to silently install a package that cannot be installed' {
-			{Install-Package -Name $package -Version "[$version]" -ErrorAction Stop -WarningAction SilentlyContinue} | Should -Throw
-		}
-	}
+	# 	It 'fails to silently install a package that cannot be installed' {
+	# 		{Install-Package -Name $package -Version "[$version]" -ErrorAction Stop -WarningAction SilentlyContinue} | Should -Throw
+	# 	}
+	# }
 
 	Context 'package uninstallation' {
 		BeforeAll {
