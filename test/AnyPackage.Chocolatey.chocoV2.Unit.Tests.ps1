@@ -18,7 +18,7 @@ Describe 'Chocolatey V2 test validity' {
 	}
 }
 
-Describe 'basic package search operations' {
+Describe 'Chocolatey V2 basic package search operations' {
 	Context 'without additional arguments' {
 		BeforeAll {
 			$package = 'cpu-z'
@@ -39,7 +39,7 @@ Describe 'basic package search operations' {
 	}
 }
 
-Describe 'pipeline-based package installation and uninstallation' {
+Describe 'Chocolatey V2 pipeline-based package installation and uninstallation' {
 	Context 'without additional arguments' {
 		BeforeAll {
 			$package = 'cpu-z'
@@ -86,7 +86,7 @@ Describe 'pipeline-based package installation and uninstallation' {
 	}
 }
 
-Describe 'multi-source support' {
+Describe 'Chocolatey V2 multi-source support' {
 	BeforeAll {
 		$altSource = 'LocalChocoSource'
 		$altLocation = $PSScriptRoot
@@ -117,7 +117,7 @@ Describe 'multi-source support' {
 	}
 }
 
-Describe 'version filters' {
+Describe 'Chocolatey V2 version filters' {
 	BeforeAll {
 		$package = 'ninja'
 		# Keep at least one version back, to test the 'latest' feature
