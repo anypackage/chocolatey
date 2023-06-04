@@ -26,8 +26,8 @@
 		}
 		PSData = @{
 			Tags = @('AnyPackage','Provider','Chocolatey','Windows')
-			LicenseUri = 'https://github.com/AnyPackage/AnyPackage.Chocolatey/blob/main/LICENSE'
-			ProjectUri = 'https://github.com/AnyPackage/AnyPackage.Chocolatey'
+			LicenseUri = 'https://github.com/anypackage/chocolatey/blob/main/LICENSE'
+			ProjectUri = 'https://github.com/anypackage/chocolatey'
 			ReleaseNotes = 'This is a PowerShell AnyPackage provider. It is a wrapper on top of Choco.
 			It discovers Chocolatey packages from https://www.chocolatey.org and other NuGet repos.'
 		}
